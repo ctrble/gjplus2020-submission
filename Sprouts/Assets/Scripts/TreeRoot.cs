@@ -5,6 +5,17 @@ using UnityEngine;
 public class TreeRoot : MonoBehaviour {
   public LSystem lSystem;
   public int growthStep;
+
+  // void OnEnable() {
+  //   if (lSystem == null) {
+  //     lSystem = GetComponent<LSystem>();
+  //   }
+  // }
+
+  public void GetLSystem(LSystem theSystem) {
+    lSystem = theSystem;
+  }
+
   void Update() {
     if (Input.GetKeyDown(KeyCode.G)) {
       growthStep++;
@@ -12,9 +23,7 @@ public class TreeRoot : MonoBehaviour {
     }
   }
 
-  public void GetSeeded(LSystem system) {
-    // TODO: honestly this is a horrible way of handling this
+  public void Grow() {
     growthStep++;
-    lSystem = system;
   }
 }

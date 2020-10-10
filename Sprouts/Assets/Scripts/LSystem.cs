@@ -35,7 +35,7 @@ public class LSystem : MonoBehaviour {
 
     // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
     rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
-    rules.Add('F', "F");
+    rules.Add('F', "FF");
   }
 
   public void Generate(GameObject tree) {
@@ -45,10 +45,10 @@ public class LSystem : MonoBehaviour {
     TreeRoot currentTreeRoot = tree.GetComponent<TreeRoot>();
     int currentGrowthStep = currentTreeRoot.growthStep;
 
-    if (currentGrowthStep == 0) {
-      currentTreeRoot.GetSeeded(this);
-      return;
-    }
+    // if (currentGrowthStep == 0) {
+    //   currentTreeRoot.Grow();
+    //   return;
+    // }
 
     // for (int i = 0; i < iterations; i++) {
     for (int i = 0; i < currentGrowthStep; i++) {
@@ -60,7 +60,6 @@ public class LSystem : MonoBehaviour {
       currentPath = stringBuilder.ToString();
       stringBuilder = new StringBuilder();
     }
-    Debug.Log(currentPath);
 
     for (int k = 0; k < currentPath.Length; k++) {
       switch (currentPath[k]) {
@@ -123,6 +122,7 @@ public class LSystem : MonoBehaviour {
           break;
 
         case '[':
+          Debug.Log("start " + transform.position);
           savedTransforms.Push(new SavedTransform() {
             position = transform.position,
             rotation = transform.rotation
@@ -131,7 +131,7 @@ public class LSystem : MonoBehaviour {
 
         case ']':
           SavedTransform stack = savedTransforms.Pop();
-
+          Debug.Log("end " + transform.position + " " + stack.position);
           transform.position = stack.position;
           transform.rotation = stack.rotation;
           break;

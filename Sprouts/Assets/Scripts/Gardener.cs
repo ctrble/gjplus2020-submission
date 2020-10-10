@@ -12,10 +12,11 @@ public class Gardener : MonoBehaviour {
       if (i > 0) {
         return;
       }
-      GameObject tree = Instantiate(treePrefab);
+      TreeRoot tree = Instantiate(treePrefab).GetComponent<TreeRoot>();
 
-      lSystem.Generate(tree);
+      // lSystem.Generate(tree);
       tree.transform.position = seeds[i];
+      tree.GetLSystem(lSystem);
     }
   }
 }
