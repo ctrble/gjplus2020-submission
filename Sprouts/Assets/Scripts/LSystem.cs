@@ -6,7 +6,8 @@ using UnityEngine;
 // https://www.youtube.com/watch?v=wo3VGyF5z8Q
 public class LSystem : MonoBehaviour {
   public int iterations;
-  public float angle;
+  public float angle2d;
+  public float angle3d;
   public float width;
   public float minLeafLength;
   public float maxLeafLength;
@@ -33,10 +34,9 @@ public class LSystem : MonoBehaviour {
       randomRotations[i] = Random.Range(-1f, 1f);
     }
 
-    rules.Add('X', "[-FX][+FX][FX]");
-    rules.Add('F', "FF");
-
-    // Generate();
+    // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
+    rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
+    rules.Add('F', "F");
   }
 
   public void Generate() {
@@ -75,22 +75,17 @@ public class LSystem : MonoBehaviour {
 
           float length = 0f;
           if (isLeaf) {
-            length = UnityEngine.Random.Range(minLeafLength, maxLeafLength);
+            length = Random.Range(minLeafLength, maxLeafLength);
             transform.Translate(Vector3.up * 1f * length);
-            // transform.Translate(Vector3.up * 2f * Random.Range(minLeafLength, maxLeafLength));
           }
           else {
-            length = UnityEngine.Random.Range(minBranchLength, maxBranchLength);
+            length = Random.Range(minBranchLength, maxBranchLength);
             transform.Translate(Vector3.up * 1f * length);
-            // transform.Translate(Vector3.up * 2f * Random.Range(minBranchLength, maxBranchLength));
           }
 
-          // currentTreeElement.lineRenderer.startWidth = width;
-          // currentTreeElement.lineRenderer.endWidth = width;
+          currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
           currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width;
           currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width;
-          currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
-          // currentElement.transform.rotation = transform.rotation;
           currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
           break;
 
@@ -98,19 +93,19 @@ public class LSystem : MonoBehaviour {
           break;
 
         case '+':
-          transform.Rotate(Vector3.forward * angle * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.forward * angle2d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
           break;
 
         case '-':
-          transform.Rotate(Vector3.back * angle * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.back * angle2d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
           break;
 
         case '*':
-          transform.Rotate(Vector3.up * 120f * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.up * angle3d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
           break;
 
         case '/':
-          transform.Rotate(Vector3.down * 120f * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.down * angle3d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
           break;
 
         case '[':
