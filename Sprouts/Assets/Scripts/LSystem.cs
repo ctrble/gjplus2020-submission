@@ -25,7 +25,6 @@ public class LSystem : MonoBehaviour {
   private Vector3 initialPosition;
 
   private string currentPath = "";
-  [SerializeField]
   private float[] randomRotations;
 
   void Awake() {
