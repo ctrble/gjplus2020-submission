@@ -15,7 +15,6 @@ public class LSystem : MonoBehaviour {
   public float maxBranchLength;
   public float variance;
 
-  public GameObject tree;
   public GameObject branch;
   public GameObject leaf;
 
@@ -39,7 +38,7 @@ public class LSystem : MonoBehaviour {
     rules.Add('F', "F");
   }
 
-  public void Generate() {
+  public void Generate(GameObject tree) {
     currentPath = axiom;
 
     StringBuilder stringBuilder = new StringBuilder();
