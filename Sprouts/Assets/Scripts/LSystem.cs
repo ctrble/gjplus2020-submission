@@ -18,7 +18,7 @@ public class LSystem : MonoBehaviour {
   public GameObject branch;
   public GameObject leaf;
 
-  private const string axiom = "X";
+  private const string axiom = "X"; // starting point of current path
 
   private Dictionary<char, string> rules = new Dictionary<char, string>();
   private Stack<SavedTransform> savedTransforms = new Stack<SavedTransform>();
@@ -40,10 +40,18 @@ public class LSystem : MonoBehaviour {
 
   public void Generate(GameObject tree) {
     currentPath = axiom;
-
     StringBuilder stringBuilder = new StringBuilder();
 
-    for (int i = 0; i < iterations; i++) {
+    TreeRoot currentTreeRoot = tree.GetComponent<TreeRoot>();
+    int currentGrowthStep = currentTreeRoot.growthStep;
+
+    if (currentGrowthStep == 0) {
+      currentTreeRoot.GetSeeded(this);
+      return;
+    }
+
+    // for (int i = 0; i < iterations; i++) {
+    for (int i = 0; i < currentGrowthStep; i++) {
       char[] currentPathChars = currentPath.ToCharArray();
       for (int j = 0; j < currentPathChars.Length; j++) {
         stringBuilder.Append(rules.ContainsKey(currentPathChars[j]) ? rules[currentPathChars[j]] : currentPathChars[j].ToString());
@@ -52,15 +60,21 @@ public class LSystem : MonoBehaviour {
       currentPath = stringBuilder.ToString();
       stringBuilder = new StringBuilder();
     }
+    Debug.Log(currentPath);
 
     for (int k = 0; k < currentPath.Length; k++) {
       switch (currentPath[k]) {
+        // F == forward
         case 'F':
           initialPosition = transform.position;
           bool isLeaf = false;
 
           GameObject currentElement;
-          if (currentPath[k + 1] % currentPath.Length == 'X' || currentPath[k + 3] % currentPath.Length == 'F' && currentPath[k + 4] % currentPath.Length == 'X') {
+
+          bool nextIsLeaf = currentPath[k + 1] % currentPath.Length == 'X';
+          bool aheadIsLeaf = aheadIsLeaf = currentPath[(k + 3) % currentPath.Length] % currentPath.Length == 'F' && currentPath[(k + 4) % currentPath.Length] % currentPath.Length == 'X';
+
+          if (nextIsLeaf || aheadIsLeaf) {
             currentElement = Instantiate(leaf, transform.position, transform.rotation);
             isLeaf = true;
           }
@@ -88,6 +102,7 @@ public class LSystem : MonoBehaviour {
           currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
           break;
 
+        // axiom, nothing happens
         case 'X':
           break;
 
