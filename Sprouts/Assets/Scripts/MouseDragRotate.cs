@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseDragRotate : MonoBehaviour {
-
+  public float scale;
   private Vector3 mousePreviousPosition = Vector3.zero;
   private Vector3 mousePositionDelta = Vector3.zero;
   private Camera cameraMain;
@@ -16,7 +16,7 @@ public class MouseDragRotate : MonoBehaviour {
 
   void Update() {
     if (Input.GetMouseButton(0)) {
-      mousePositionDelta = Input.mousePosition - mousePreviousPosition;
+      mousePositionDelta = (Input.mousePosition - mousePreviousPosition) * scale;
 
       transform.Rotate(cameraMain.transform.up, -Vector3.Dot(mousePositionDelta, cameraMain.transform.right), Space.World);
       transform.Rotate(cameraMain.transform.right, Vector3.Dot(mousePositionDelta, cameraMain.transform.up), Space.World);
