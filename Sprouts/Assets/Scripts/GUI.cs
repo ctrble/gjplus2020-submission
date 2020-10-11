@@ -10,6 +10,7 @@ public class GUI : MonoBehaviour {
   public GameObject intro;
   public GameObject pauseScreen;
   public bool isPaused;
+  public bool introDone;
 
   void Awake() {
     canvas = GetComponent<Canvas>();
@@ -18,15 +19,20 @@ public class GUI : MonoBehaviour {
     intro.SetActive(true);
     pauseScreen.SetActive(false);
 
+    introDone = false;
+    isPaused = false;
     Invoke("HideIntro", 3f);
   }
 
   void Update() {
-    // listen for pause game
-    if (Input.GetKeyDown(KeyCode.Escape)) {
-      pauseScreen.SetActive(true);
-      isPaused = true;
-      Time.timeScale = 0f;
+    if (introDone && !isPaused) {
+      // listen for pause game
+      if (Input.GetKeyDown(KeyCode.Escape)) {
+        canvasGroup.alpha = 1f;
+        pauseScreen.SetActive(true);
+        isPaused = true;
+        Time.timeScale = 0f;
+      }
     }
   }
 
@@ -48,6 +54,8 @@ public class GUI : MonoBehaviour {
   }
 
   void DisableIntro() {
+    introDone = true;
+    canvasGroup.alpha = 1f;
     intro.SetActive(false);
   }
 

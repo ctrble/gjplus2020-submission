@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Conductor : MonoBehaviour {
+  public static Conductor instance = null;
   public AudioSource audioSource;
   public AudioClip[] tracks;
   public int currentTrack;
+
+  void Awake() {
+    CreateSingleton();
+  }
+
+  void CreateSingleton() {
+    if (instance == null)
+      instance = this;
+    else if (instance != this)
+      Destroy(gameObject);
+
+    DontDestroyOnLoad(gameObject);
+  }
 
   void OnEnable() {
     audioSource = GetComponent<AudioSource>();
