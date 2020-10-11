@@ -39,12 +39,10 @@ public class LSystem : MonoBehaviour {
     // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
     rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
     rules.Add('F', "F");
-
-    currentPath = axiom;
   }
 
   public void Generate(GameObject tree) {
-    // currentPath = axiom;
+    currentPath = axiom;
     StringBuilder stringBuilder = new StringBuilder();
 
     TreeRoot currentTreeRoot = tree.GetComponent<TreeRoot>();

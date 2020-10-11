@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class TreeRoot : MonoBehaviour {
   public LSystem lSystem;
+  public int initialGrowth;
   public int growthStep;
 
   public void PlantTree(LSystem theSystem) {
     lSystem = theSystem;
     lSystem.Generate(gameObject);
 
-    foreach (Transform branchBase in transform) {
-      for (int i = 0; i < branchBase.childCount; i++) {
-        branchBase.GetChild(i).gameObject.SetActive(i <= growthStep);
+    // turn off all branches
+    for (int i = 0; i < transform.childCount; i++) {
+      Transform baseBranch = transform.GetChild(i);
+
+      for (int j = 0; j < baseBranch.childCount; j++) {
+        baseBranch.GetChild(j).gameObject.SetActive(j == 0);
       }
+
+      baseBranch.gameObject.SetActive(false);
     }
   }
 
@@ -24,11 +30,23 @@ public class TreeRoot : MonoBehaviour {
   }
 
   public void Grow(int amount) {
-    growthStep += amount;
+    // grow the main branches first
+    if (initialGrowth < transform.childCount) {
+      initialGrowth += amount;
 
-    foreach (Transform branchBase in transform) {
-      for (int i = 0; i < branchBase.childCount; i++) {
-        branchBase.GetChild(i).gameObject.SetActive(i <= growthStep);
+      for (int i = 0; i < transform.childCount; i++) {
+        transform.GetChild(i).gameObject.SetActive(i < initialGrowth);
+      }
+    }
+    // then grow the smaller ones
+    else {
+      growthStep += amount;
+
+      foreach (Transform branchBase in transform) {
+        for (int i = 0; i < branchBase.childCount; i++) {
+          // checking for equality because it has a head start w/ initial growth
+          branchBase.GetChild(i).gameObject.SetActive(i <= growthStep);
+        }
       }
     }
   }
