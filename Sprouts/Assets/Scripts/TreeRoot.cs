@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class TreeRoot : MonoBehaviour {
   public LSystem lSystem;
+  public float sunGrowTime;
   public int initialGrowth;
   public int growthStep;
+  public GameObject sun;
+  [SerializeField]
+  private float sunDirection;
+  private float sunTimer;
+
+  void OnEnable() {
+    if (sun == null) {
+      sun = GameObject.FindGameObjectWithTag("Sun");
+    }
+  }
 
   public void PlantTree(LSystem theSystem) {
     lSystem = theSystem;
@@ -24,8 +35,18 @@ public class TreeRoot : MonoBehaviour {
   }
 
   void Update() {
-    if (Input.GetKeyDown(KeyCode.G)) {
-      Grow(1);
+    HandleSunGrowth();
+  }
+
+  void HandleSunGrowth() {
+    sunTimer += Time.deltaTime;
+    if (sunTimer >= sunGrowTime) {
+      sunTimer = 0f;
+      sunDirection = Vector3.Dot(transform.position, sun.transform.position);
+
+      if (sunDirection > 0) {
+        Grow(1);
+      }
     }
   }
 

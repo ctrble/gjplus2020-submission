@@ -44,4 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lSystem: {fileID: 0}
+  sunGrowTime: 5
+  initialGrowth: 0
   growthStep: 0
+  sun: {fileID: 0}
+  sunDirection: 0
