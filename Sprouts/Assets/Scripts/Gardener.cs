@@ -14,9 +14,8 @@ public class Gardener : MonoBehaviour {
       }
       TreeRoot tree = Instantiate(treePrefab).GetComponent<TreeRoot>();
 
-      // lSystem.Generate(tree);
       tree.transform.position = seeds[i];
-      tree.GetLSystem(lSystem);
+      tree.PlantTree(lSystem);
     }
   }
 }

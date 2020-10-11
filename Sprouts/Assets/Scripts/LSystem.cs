@@ -15,6 +15,8 @@ public class LSystem : MonoBehaviour {
   public float maxBranchLength;
   public float variance;
 
+  public GameObject tempBranchParent;
+  public GameObject branchRoot;
   public GameObject branch;
   public GameObject leaf;
 
@@ -26,6 +28,7 @@ public class LSystem : MonoBehaviour {
 
   private string currentPath = "";
   private float[] randomRotations;
+  public List<string> tempPaths;
 
   void Awake() {
     randomRotations = new float[1000];
@@ -35,23 +38,20 @@ public class LSystem : MonoBehaviour {
 
     // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
     rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
-    rules.Add('F', "FF");
+    rules.Add('F', "F");
+
+    currentPath = axiom;
   }
 
   public void Generate(GameObject tree) {
-    currentPath = axiom;
+    // currentPath = axiom;
     StringBuilder stringBuilder = new StringBuilder();
 
     TreeRoot currentTreeRoot = tree.GetComponent<TreeRoot>();
     int currentGrowthStep = currentTreeRoot.growthStep;
 
-    // if (currentGrowthStep == 0) {
-    //   currentTreeRoot.Grow();
-    //   return;
-    // }
-
-    // for (int i = 0; i < iterations; i++) {
-    for (int i = 0; i < currentGrowthStep; i++) {
+    for (int i = 0; i < iterations; i++) {
+      // for (int i = 0; i < currentGrowthStep; i++) {
       char[] currentPathChars = currentPath.ToCharArray();
       for (int j = 0; j < currentPathChars.Length; j++) {
         stringBuilder.Append(rules.ContainsKey(currentPathChars[j]) ? rules[currentPathChars[j]] : currentPathChars[j].ToString());
@@ -61,12 +61,20 @@ public class LSystem : MonoBehaviour {
       stringBuilder = new StringBuilder();
     }
 
+    bool previousWasLeaf = false;
+    tempBranchParent = new GameObject("Fresh Branch");
+
     for (int k = 0; k < currentPath.Length; k++) {
       switch (currentPath[k]) {
         // F == forward
         case 'F':
           initialPosition = transform.position;
           bool isLeaf = false;
+
+          if (initialPosition == Vector3.zero) {
+            branchRoot = new GameObject("Root " + k);
+            branchRoot.transform.SetParent(tree.transform);
+          }
 
           GameObject currentElement;
 
@@ -81,7 +89,13 @@ public class LSystem : MonoBehaviour {
             currentElement = Instantiate(branch, transform.position, transform.rotation);
           }
 
-          currentElement.transform.SetParent(tree.transform);
+          if (previousWasLeaf && !isLeaf) {
+            // time to start a new branch
+            tempBranchParent = new GameObject("Fresh Branch " + k);
+          }
+          tempBranchParent.transform.SetParent(branchRoot.transform);
+
+          currentElement.transform.SetParent(tempBranchParent.transform);
 
           TreeElement currentTreeElement = currentElement.GetComponent<TreeElement>();
 
@@ -99,6 +113,8 @@ public class LSystem : MonoBehaviour {
           currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width;
           currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width;
           currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
+
+          previousWasLeaf = isLeaf;
           break;
 
         // axiom, nothing happens
@@ -122,7 +138,6 @@ public class LSystem : MonoBehaviour {
           break;
 
         case '[':
-          Debug.Log("start " + transform.position);
           savedTransforms.Push(new SavedTransform() {
             position = transform.position,
             rotation = transform.rotation
@@ -131,7 +146,6 @@ public class LSystem : MonoBehaviour {
 
         case ']':
           SavedTransform stack = savedTransforms.Pop();
-          Debug.Log("end " + transform.position + " " + stack.position);
           transform.position = stack.position;
           transform.rotation = stack.rotation;
           break;

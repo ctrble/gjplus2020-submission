@@ -6,24 +6,30 @@ public class TreeRoot : MonoBehaviour {
   public LSystem lSystem;
   public int growthStep;
 
-  // void OnEnable() {
-  //   if (lSystem == null) {
-  //     lSystem = GetComponent<LSystem>();
-  //   }
-  // }
-
-  public void GetLSystem(LSystem theSystem) {
+  public void PlantTree(LSystem theSystem) {
     lSystem = theSystem;
+    lSystem.Generate(gameObject);
+
+    foreach (Transform branchBase in transform) {
+      for (int i = 0; i < branchBase.childCount; i++) {
+        branchBase.GetChild(i).gameObject.SetActive(i <= growthStep);
+      }
+    }
   }
 
   void Update() {
     if (Input.GetKeyDown(KeyCode.G)) {
-      growthStep++;
-      lSystem?.Generate(gameObject);
+      Grow(1);
     }
   }
 
-  public void Grow() {
-    growthStep++;
+  public void Grow(int amount) {
+    growthStep += amount;
+
+    foreach (Transform branchBase in transform) {
+      for (int i = 0; i < branchBase.childCount; i++) {
+        branchBase.GetChild(i).gameObject.SetActive(i <= growthStep);
+      }
+    }
   }
 }

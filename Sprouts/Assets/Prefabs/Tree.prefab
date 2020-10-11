@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lSystem: {fileID: 0}
-  growthStep: 1
+  growthStep: 0
