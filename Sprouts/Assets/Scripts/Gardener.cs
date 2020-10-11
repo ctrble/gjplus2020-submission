@@ -18,6 +18,7 @@ public class Gardener : MonoBehaviour {
       TreeRoot tree = Instantiate(treePrefab).GetComponent<TreeRoot>();
 
       tree.PlantTree(lSystem);
+      tree.transform.SetParent(world);
       tree.transform.position = seeds[i];
       tree.transform.up = seeds[i] - Vector3.zero;
     }
