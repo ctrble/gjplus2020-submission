@@ -9,13 +9,13 @@ public class Gardener : MonoBehaviour {
 
   void Start() {
     for (int i = 0; i < seeds.Length; i++) {
-      if (i > 0) {
-        return;
-      }
+      // if (i > 0) {
+      //   return;
+      // }
       TreeRoot tree = Instantiate(treePrefab).GetComponent<TreeRoot>();
 
-      tree.transform.position = seeds[i];
       tree.PlantTree(lSystem);
+      tree.transform.position = seeds[i];
     }
   }
 }
