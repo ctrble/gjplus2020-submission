@@ -5,12 +5,15 @@ using UnityEngine;
 public class TreeRoot : MonoBehaviour {
   public LSystem lSystem;
   public float sunGrowTime;
+  public float waterGrowTime;
   public int initialGrowth;
   public int growthStep;
   public GameObject sun;
   [SerializeField]
   private float sunDirection;
   private float sunTimer;
+  public bool watering;
+  private float waterTimer;
 
   void OnEnable() {
     if (sun == null) {
@@ -36,15 +39,28 @@ public class TreeRoot : MonoBehaviour {
 
   void Update() {
     HandleSunGrowth();
+    HandleWaterGrowth();
   }
 
   void HandleSunGrowth() {
-    sunTimer += Time.deltaTime;
-    if (sunTimer >= sunGrowTime) {
-      sunTimer = 0f;
-      sunDirection = Vector3.Dot(transform.position, sun.transform.position);
+    sunDirection = Vector3.Dot(transform.position, sun.transform.position);
 
-      if (sunDirection > 0) {
+    if (sunDirection > 0) {
+      sunTimer += Time.deltaTime;
+
+      if (sunTimer >= sunGrowTime) {
+        sunTimer = 0f;
+        Grow(1);
+      }
+    }
+  }
+
+  void HandleWaterGrowth() {
+    if (watering) {
+      waterTimer += Time.deltaTime;
+
+      if (waterTimer >= waterGrowTime) {
+        waterTimer = 0f;
         Grow(1);
       }
     }
@@ -70,5 +86,13 @@ public class TreeRoot : MonoBehaviour {
         }
       }
     }
+  }
+
+  void OnTriggerEnter(Collider other) {
+    watering = other.CompareTag("Rain Area");
+  }
+
+  void OnTriggerExit(Collider other) {
+    watering = !other.CompareTag("Rain Area");
   }
 }

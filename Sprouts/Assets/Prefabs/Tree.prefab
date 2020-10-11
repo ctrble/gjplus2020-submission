@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6904557196908099647}
   - component: {fileID: 1368395104736838894}
+  - component: {fileID: 7917483028267323379}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -45,7 +46,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lSystem: {fileID: 0}
   sunGrowTime: 5
+  waterGrowTime: 2
   initialGrowth: 0
   growthStep: 0
   sun: {fileID: 0}
   sunDirection: 0
+  watering: 0
+--- !u!136 &7917483028267323379
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878045739613106848}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 3, z: 0}
