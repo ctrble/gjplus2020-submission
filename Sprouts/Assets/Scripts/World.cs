@@ -13,7 +13,6 @@ public class World : MonoBehaviour {
   }
 
   public void SpawnMoreWeather() {
-    Debug.Log("more weather!");
     Instantiate(weather);
   }
 }
