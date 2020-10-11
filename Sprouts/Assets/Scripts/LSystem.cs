@@ -27,15 +27,9 @@ public class LSystem : MonoBehaviour {
   private Vector3 initialPosition;
 
   private string currentPath = "";
-  private float[] randomRotations;
   public List<string> tempPaths;
 
   void Awake() {
-    randomRotations = new float[1000];
-    for (int i = 0; i < randomRotations.Length; i++) {
-      randomRotations[i] = Random.Range(-1f, 1f);
-    }
-
     // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
     rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
     rules.Add('F', "F");
@@ -49,7 +43,6 @@ public class LSystem : MonoBehaviour {
     int currentGrowthStep = currentTreeRoot.growthStep;
 
     for (int i = 0; i < iterations; i++) {
-      // for (int i = 0; i < currentGrowthStep; i++) {
       char[] currentPathChars = currentPath.ToCharArray();
       for (int j = 0; j < currentPathChars.Length; j++) {
         stringBuilder.Append(rules.ContainsKey(currentPathChars[j]) ? rules[currentPathChars[j]] : currentPathChars[j].ToString());
@@ -120,19 +113,19 @@ public class LSystem : MonoBehaviour {
           break;
 
         case '+':
-          transform.Rotate(Vector3.forward * angle2d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.forward * angle2d * (1f + variance / 100f * Random.Range(-1f, 1f)));
           break;
 
         case '-':
-          transform.Rotate(Vector3.back * angle2d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.back * angle2d * (1f + variance / 100f * Random.Range(-1f, 1f)));
           break;
 
         case '*':
-          transform.Rotate(Vector3.up * angle3d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.up * angle3d * (1f + variance / 100f * Random.Range(-1f, 1f)));
           break;
 
         case '/':
-          transform.Rotate(Vector3.down * angle3d * (1f + variance / 100f * randomRotations[k % randomRotations.Length]));
+          transform.Rotate(Vector3.down * angle3d * (1f + variance / 100f * Random.Range(-1f, 1f)));
           break;
 
         case '[':
