@@ -11,6 +11,7 @@ public class Gravity : MonoBehaviour {
       world = GameObject.FindGameObjectWithTag("World").transform;
     }
 
+    // place it on the world
     Vector3 startPosition = Random.onUnitSphere * (world.localScale.x * 0.5f);
     transform.position = startPosition;
     transform.up = startPosition - Vector3.zero;
