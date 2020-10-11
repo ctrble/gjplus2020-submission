@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 public class MouseZoom : MonoBehaviour {
+  public GUI gui;
   public CinemachineVirtualCamera virtualCamera;
   public CinemachineComponentBase componentBase;
 
@@ -22,13 +23,15 @@ public class MouseZoom : MonoBehaviour {
   }
 
   void Update() {
-    rawZoom += Input.mouseScrollDelta.y * scrollScale;
+    if (!gui.isPaused) {
+      rawZoom += Input.mouseScrollDelta.y * scrollScale;
 
-    zoomDistance = Mathf.Clamp(rawZoom, minZoom, maxZoom);
-    rawZoom = zoomDistance;
+      zoomDistance = Mathf.Clamp(rawZoom, minZoom, maxZoom);
+      rawZoom = zoomDistance;
 
-    if (componentBase is CinemachineFramingTransposer) {
-      (componentBase as CinemachineFramingTransposer).m_CameraDistance = zoomDistance;
+      if (componentBase is CinemachineFramingTransposer) {
+        (componentBase as CinemachineFramingTransposer).m_CameraDistance = zoomDistance;
+      }
     }
   }
 }
