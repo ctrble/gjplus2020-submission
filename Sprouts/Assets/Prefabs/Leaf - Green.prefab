@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3001861456533306469}
   - component: {fileID: 8218266413467790217}
   m_Layer: 0
-  m_Name: Leaf
+  m_Name: Leaf - Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ LineRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -50,7 +50,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bd2d742ee2ce7a740ae0cf992a38be74, type: 2}
+  - {fileID: 2100000, guid: d2d5ab82803924b88ac1c07fa6286561, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,13 +76,13 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.6
+    widthMultiplier: 0.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.30555725
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -90,13 +90,31 @@ LineRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0.1
-        inSlope: 0
-        outSlope: 0
+        time: 0.22605288
+        value: 0.70833266
+        inSlope: -2.897459
+        outSlope: -2.897459
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.29175356
+      - serializedVersion: 3
+        time: 0.69545597
+        value: 0.54483825
+        inSlope: -4.3645997
+        outSlope: -4.3645997
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
+        outWeight: 0.2845079
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -4.759259
+        outSlope: -4.759259
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.24514306
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -151,4 +169,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 3001861456533306469}
-  material: {fileID: 2100000, guid: bd2d742ee2ce7a740ae0cf992a38be74, type: 2}
+  material: {fileID: 2100000, guid: d2d5ab82803924b88ac1c07fa6286561, type: 2}

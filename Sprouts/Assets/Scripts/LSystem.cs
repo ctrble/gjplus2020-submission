@@ -27,12 +27,16 @@ public class LSystem : MonoBehaviour {
   private Vector3 initialPosition;
 
   private string currentPath = "";
-  public List<string> tempPaths;
+
+  public string xRules = "[-/FX][+*FX][++/FX][FX]";
+  public string fRules = "F";
 
   void Awake() {
     // rules.Add('X', "[*FX][+/FX][+FX][-/-FX]");
-    rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
-    rules.Add('F', "F");
+    // rules.Add('X', "[-/FX][+*FX][++/FX][FX]");
+    // rules.Add('F', "F");
+    rules.Add('X', xRules);
+    rules.Add('F', fRules);
   }
 
   public void Generate(GameObject tree) {
